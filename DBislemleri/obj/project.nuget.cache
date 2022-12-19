@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "8O3r67WlI5N/u/iZpbkHdi0VLaaRAoLpGmAnMul0JnHnzvp6aHMfs85FlTcqVWP4FEN02EL132WiTk03VDWscQ==",
+  "dgSpecHash": "WqFa1VZO0gRSMB2hRRURrUClgn23FKt6+nDtubfEe/6iKcrm+hXlNKgXxzgqhmTuahnMAwgFN4N+JI7p+oQhBg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ahmet akpınar\\Desktop\\çalışmalar\\DBislemleri\\Dbislemleri\\Dbislemleri.csproj",
+  "projectFilePath": "C:\\Users\\ahmet akpınar\\Desktop\\projem\\DBislemleriAdd\\Dbislemleri\\Dbislemleri.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ahmet akpınar\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\ahmet akpınar\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",

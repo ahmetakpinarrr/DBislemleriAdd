@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ahmet akpınar\\Desktop\\çalışmalar\\DBislemleri\\Dbislemleri\\Dbislemleri.csproj": {}
+    "C:\\Users\\ahmet akpınar\\Desktop\\projem\\DBislemleriAdd\\Dbislemleri\\Dbislemleri.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ahmet akpınar\\Desktop\\çalışmalar\\DBislemleri\\Dbislemleri\\Dbislemleri.csproj": {
+    "C:\\Users\\ahmet akpınar\\Desktop\\projem\\DBislemleriAdd\\Dbislemleri\\Dbislemleri.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ahmet akpınar\\Desktop\\çalışmalar\\DBislemleri\\Dbislemleri\\Dbislemleri.csproj",
+        "projectUniqueName": "C:\\Users\\ahmet akpınar\\Desktop\\projem\\DBislemleriAdd\\Dbislemleri\\Dbislemleri.csproj",
         "projectName": "Dbislemleri",
-        "projectPath": "C:\\Users\\ahmet akpınar\\Desktop\\çalışmalar\\DBislemleri\\Dbislemleri\\Dbislemleri.csproj",
+        "projectPath": "C:\\Users\\ahmet akpınar\\Desktop\\projem\\DBislemleriAdd\\Dbislemleri\\Dbislemleri.csproj",
         "packagesPath": "C:\\Users\\ahmet akpınar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ahmet akpınar\\Desktop\\çalışmalar\\DBislemleri\\Dbislemleri\\obj\\",
+        "outputPath": "C:\\Users\\ahmet akpınar\\Desktop\\projem\\DBislemleriAdd\\Dbislemleri\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ahmet akpınar\\AppData\\Roaming\\NuGet\\NuGet.Config",
