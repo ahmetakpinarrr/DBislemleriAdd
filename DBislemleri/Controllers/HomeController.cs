@@ -32,6 +32,7 @@ namespace Dbislemleri.Controllers
         {
             return View();
         }
+        
 
         [HttpPost]
         public JsonResult DBislemler(DbIslemleriAhmet newTask)
@@ -50,6 +51,44 @@ namespace Dbislemleri.Controllers
                 return Json(new { success = false, restext = error.Message });
             }
             
+        }
+        [HttpGet]
+        public JsonResult DBislemlerGet()
+        {
+            try
+            {
+                using (develops_commerceContext db = new develops_commerceContext())
+                {
+                    //List<DbIslemleriAhmet> ProjectList = db.DbIslemleriAhmets.Where(x=>x.ProjectName=="Ahmet").ToList(); // şartlı sorgu yani ismi ahmet olanları listeler
+                    List<DbIslemleriAhmet> ProjectList = db.DbIslemleriAhmets.ToList(); 
+
+                    return Json(new { success = true, dataList=ProjectList });
+                }
+            }
+            catch (Exception error)
+            {
+                return Json(new { success = false, restext = error.Message });
+            }
+
+        }
+        [HttpPost]
+        public JsonResult DBislemlerDelete(int ID)
+        {
+            try
+            {
+                using (develops_commerceContext db = new develops_commerceContext())
+                {
+                    DbIslemleriAhmet Delete = db.DbIslemleriAhmets.Where(x => x.Id==ID).FirstOrDefault();
+                    db.DbIslemleriAhmets.Remove(Delete);
+                    db.SaveChanges();
+                    return Json(new { success = true, restext = "Silindi" });
+                }
+            }
+            catch (Exception error)
+            {
+                return Json(new { success = false, restext = error.Message });
+            }
+
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

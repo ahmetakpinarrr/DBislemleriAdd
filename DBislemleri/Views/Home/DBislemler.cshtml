@@ -35,6 +35,19 @@
             </div>
             <!-- /.card -->
         </div>
+
+        
+            <table id="ProjectTable" class="table table-responsive">
+                <thead>
+                    
+                </thead>
+                <tbody>
+                 
+                   
+                </tbody>
+            </table>
+        </div>
+
     </div>
 </section>
 
@@ -56,7 +69,7 @@
             data: { newTask: taskForm },
             success: function (data) {
                 if (data.success) {
-
+                    DataGet();
                     swal({
                         title: data.restext,
                         icon: "success",
@@ -78,4 +91,77 @@
             }
         });
     }
+    $(document).ready(function () {
+        //$('#myTable').DataTable();
+        DataGet();
+    });
+    
+    function DataGet () {
+
+        $.ajax({
+            url: '@Url.Action("DBislemlerGet" , "Home")',
+            type: "Get",
+            success: function (data) {
+                console.log(data);
+                $("#ProjectTable").DataTable({
+                    "responsive": true, "lengthChange": false, "autoWidth": false,
+                   
+                    "bDestroy": true,
+                    data: data.dataList,
+                    columns: [
+                       
+                        { title: "Proje Adı", data: "projectName" },
+                        { title: "Proje Detay", data: "projectDescription" },
+                        { title: "Status", data: "status" },
+
+                        { title: "İŞLEM", data: "id","render":function(data){
+                                console.log(data);
+                                return "<a href=\"#\" onclick=\"deleteA(\'" + data + "\')\" class=\"\">Sil</a>"; 
+                        
+                        }
+                        
+                        },
+                       
+                    ]
+
+
+                });
+            }, error: function () { }
+        });
+
+    }
+
+    function deleteA(Sil) {
+
+        $.ajax({
+            url: '@Url.Action("DBislemlerDelete" , "Home")',
+            type: "Post",
+            data: { ID:Sil },
+            success: function (data) {
+                if (data.success) {
+                   DataGet(); 
+                    swal({
+                        title: data.restext,
+                        icon: "success",
+                        button: "Kapat",
+                    });
+                } else {
+                    swal({
+                        title: data.restext,
+                        icon: "error",
+                        button: "Kapat",
+                    });
+                }
+            }, error: function (data) {
+                swal({
+                    title: data.restext,
+                    icon: "error",
+                    button: "Kapat",
+                });
+            }
+        });
+    }
+
+
+
 </script>

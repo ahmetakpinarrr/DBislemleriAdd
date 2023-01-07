@@ -1,0 +1,340 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <link href="~/css/deneme.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://cdn.datatables.net/1.10.8/js/jquery.dataTables.min.js" defer="defer"></script>
+    <link href="~/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+</head>
+<body>
+    <section class="content">
+
+
+        <form class="cf">
+            <div class="half left cf">
+                <input type="text" id="input-name" placeholder="Name">
+                <input type="email" id="input-email" placeholder="Email address">
+                <input type="text" id="input-subject" placeholder="Subject">
+            </div>
+            <div class="half right cf">
+                <textarea name="message" type="text" id="input-message" placeholder="Message"></textarea>
+            </div>
+            @*<button type="button" onclick="Send()">  Gönder  </button>*@
+            <input class="btn-primary" type="button" value="Gönder" onclick="Send()" id="input-submit">
+            <div class="row">
+
+                <div class="col-md-12">
+                    <table id="VeriTable" class="table table-responsive">
+                        <thead>
+                        </thead>
+
+                        <tbody>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </form>
+
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header col-md-12">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Modal Header</h4>
+                        <input type="text" id="input-dataid-mdl" hidden placeholder="Subject">
+                    </div>
+                    <div class="modal-body">
+                        <div class=" cf">
+                            <form class="cf">
+                                <div class="cf">
+                                    <input type="text" style="border-color:black;" id="input-name-mdl" placeholder="Name">
+                                    <input type="email" style="border-color:black;" id="input-email-mdl" placeholder="Email address">
+                                    <input type="text" style="border-color:black;" id="input-subject-mdl" placeholder="Subject">
+                                </div>
+                                <div class="cf">
+                                    <textarea name="message" type="text" id="input-message-mdl" placeholder="Message"></textarea>
+                                </div>
+
+                            </form>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" onclick="ModalUpdate()" class="btn btn-default" data-dismiss="modal">Kaydet</button>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </section>
+</body>
+</html>
+
+<script src="~/js/site.js" asp - append - version="true"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+        //$('#myTable').DataTable();
+        DataGet();
+    });
+
+    function ModalUpdate() {
+
+        var KontakVeriUpdate = {
+            Id: $('#input-dataid-mdl').val(),
+            Name: $('#input-name-mdl').val(),
+            Email: $('#input-email-mdl').val(),
+            Subject: $('#input-subject-mdl').val(),
+            Message: $('#input-message-mdl').val(),
+
+
+
+        };
+
+        $.ajax({
+            url: '@Url.Action("VeriUpdate" , "Deneme")',
+            type: "Post",
+            data: { KontakUpdate: KontakVeriUpdate },
+            success: function (data) {
+                if (data.success) {
+                    DataGet();
+                    swal({
+                        title: data.restext,
+                        icon: "success",
+                        button: "Kapat",
+                    });
+
+
+                } else {
+                    swal({
+                        title: data.restext,
+                        icon: "error",
+                        button: "Kapat",
+                    });
+                }
+            }, error: function (data) {
+                swal({
+                    title: data.restext,
+                    icon: "error",
+                    button: "Kapat",
+                });
+            }
+        });
+    }
+
+    function isEmailValid(text) {
+
+        var emailRegex = /^[a-zA-Z0-9._-]+@@[a-zA-Z0-9-]+\.[a-zA-Z]{2,6}$/;
+
+        return emailRegex.test(text);
+    }
+
+    function NullKontrol() {
+
+        var name = $("#input-name").val();
+        var email = $("#input-email").val();
+        var subject = $("#input-subject").val();
+        var message = $("#input-message").val();
+
+        if (name.trim() === null || name.trim() === "") {
+            document.getElementById('input-name').style.border = "2px solid";
+            document.getElementById('input-name').style.borderColor = "red";
+            swal({
+                title: "İsim Geçersiz!",
+                icon: "error",
+                button: "Kapat",
+            });
+            return false;
+        }
+        if (!isEmailValid(email.trim())) {
+            swal({
+                title: "Email Geçersiz!",
+                icon: "error",
+                button: "Kapat",
+            });
+            return false;
+        }
+        else {
+            return true;
+        }
+
+    }
+    function Send() {
+
+        if (NullKontrol()) {
+
+            var KontakVeri = {
+                Name: $('#input-name').val(),
+                Email: $('#input-email').val(),
+                Subject: $('#input-subject').val(),
+                Message: $('#input-message').val(),
+
+            };
+
+            $.ajax({
+                url: '@Url.Action("VeriEkle" , "Deneme")',
+                type: "Post",
+                data: { Kontak: KontakVeri },
+                success: function (data) {
+                    if (data.success) {
+                        //DataGet();
+                        swal({
+                            title: data.restext,
+                            icon: "success",
+                            button: "Kapat",
+                        });
+
+                        //$('#input-name').empty();
+                        //$('#input-email').empty();
+                        //$('#input-subject').empty();
+                        //$('#input-message').empty();
+
+                        //Kutuları boşalmak için kullanıyoruz
+
+                        document.getElementById('input-name').value = "";
+                        document.getElementById('input-email').value = "";
+                        document.getElementById('input-subject').value = "";
+                        document.getElementById('input-message').value = "";
+
+                    } else {
+                        swal({
+                            title: data.restext,
+                            icon: "error",
+                            button: "Kapat",
+                        });
+                    }
+                }, error: function (data) {
+                    swal({
+                        title: data.restext,
+                        icon: "error",
+                        button: "Kapat",
+                    });
+                }
+            });
+
+        }
+
+
+    }
+
+
+
+
+
+
+    function ModalGet(value) {
+
+        $.ajax({
+            url: '@Url.Action("VeriGetirModal" , "Deneme")',
+            type: "Get",
+            data: { Id: value },
+            success: function (data) {
+                console.log(data);
+                $('#input-dataid-mdl').val(data.modalList.id);
+
+                $('#input-name-mdl').val(data.modalList.name);
+                $('#input-email-mdl').val(data.modalList.email);
+                $('#input-subject-mdl').val(data.modalList.subject);
+                $('#input-message-mdl').val(data.modalList.message);
+            }, error: function () { }
+        });
+
+    }
+
+
+    function DataGet() {
+        console.log("veri");
+        $.ajax({
+            url: '@Url.Action("VeriGetir" , "Deneme")',
+            type: "Get",
+            success: function (data) {
+                console.log(data);
+                $("#VeriTable").DataTable({
+                    "responsive": true, "lengthChange": false, "autoWidth": false,
+
+                    "bDestroy": true,
+                    data: data.dataList,
+                    columns: [
+
+                        { title: "Name", data: "name" },
+                        { title: "Email", data: "email" },
+                        { title: "Subject", data: "subject" },
+                        { title: "Message", data: "message" },
+
+                        {
+                            title: "İŞLEM", data: "id", "render": function (data) {
+                                console.log(data);
+                                return "<a href=\"#\" onclick=\"Silme(\'" + data + "\')\" class=\"\"><i style=\"color:red;\" class=\"fa fa-trash\" aria-hidden=\"true\"></i></a> &nbsp;<button style=\"border:none;\" onclick=\"ModalGet(" + data + ")\" type=\"button\" class=\"fa fa-pencil-square-o\" data-toggle=\"modal\" data-target=\"#myModal\"> </button>";
+
+                            }
+
+                        }
+
+                    ]
+
+
+                });
+            }, error: function () { }
+        });
+
+    }
+
+    function Silme(Sil) {
+
+        $.ajax({
+            url: '@Url.Action("VeriSil" , "Deneme")',
+            type: "Post",
+            data: { ID: Sil },
+            success: function (data) {
+
+                if (data.success) {
+                    DataGet();
+                    swal({
+                        title: data.restext,
+                        icon: "success",
+                        button: "Kapat",
+                    });
+                } else {
+                    swal({
+                        title: data.restext,
+                        icon: "error",
+                        button: "Kapat",
+                    });
+                }
+            }, error: function (data) {
+                swal({
+                    title: data.restext,
+                    icon: "error",
+                    button: "Kapat",
+                });
+            }
+        });
+    }
+
+
+</script>

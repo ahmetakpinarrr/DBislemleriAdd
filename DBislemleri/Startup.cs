@@ -1,6 +1,9 @@
+using Dbislemleri.AppData;
+using Dbislemleri.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,11 +22,26 @@ namespace Dbislemleri
         }
 
         public IConfiguration Configuration { get; }
+        private static string ConnectionString;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            ConnectionString = Configuration.GetConnectionString("AppDbContext");
             services.AddControllersWithViews();
+            services.AddDbContext<develops_commerceContext>(a => a.UseSqlServer(ConnectionString));
+            services.AddTransient<EmailSenders, EmailSenders>(i =>
+            new EmailSenders(
+                   Configuration["EmailSender:Host"],
+                   Configuration.GetValue<int>("EmailSender:Port"),
+                   Configuration.GetValue<bool>("EmailSender:EnableSSL"),
+                   Configuration["EmailSender:UserName"],
+                   Configuration["EmailSender:Password"]
+               ));
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromSeconds(3600);
+                options.Cookie.IsEssential = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,7 +68,7 @@ namespace Dbislemleri
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Dbislemler}/{id?}");
+                    pattern: "{controller=New}/{action=Index}/{id?}");
             });
         }
     }

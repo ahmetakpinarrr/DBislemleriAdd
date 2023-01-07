@@ -1,0 +1,442 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact form</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <link href="~/css/deneme.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://cdn.datatables.net/1.10.8/js/jquery.dataTables.min.js" defer="defer"></script>
+    <link href="~/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <style>
+        html, body {
+            min-height: 100%;
+            padding: 0;
+            margin: 0;
+            font-family: Roboto, Arial, sans-serif;
+            font-size: 14px;
+            color: #666;
+        }
+
+        h1 {
+            margin: 0 0 20px;
+            font-weight: 400;
+            color: #1c87c9;
+        }
+
+        p {
+            margin: 0 0 5px;
+        }
+
+        .main-block {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #1c87c9;
+        }
+
+        form {
+            padding: 25px;
+            margin: 25px;
+            box-shadow: 0 2px 5px #f5f5f5;
+            background: #f5f5f5;
+        }
+
+        .fas {
+            margin: 25px 10px 0;
+            font-size: 72px;
+            color: #fff;
+        }
+
+        .fa-envelope {
+            transform: rotate(-20deg);
+        }
+
+        .fa-at, .fa-mail-bulk {
+            transform: rotate(10deg);
+        }
+
+        input, textarea {
+            width: calc(100% - 18px);
+            padding: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #1c87c9;
+            outline: none;
+        }
+
+            input::placeholder {
+                color: #666;
+            }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background: #1c87c9;
+            font-size: 16px;
+            font-weight: 400;
+            color: #fff;
+        }
+
+            button:hover {
+                background: #2371a0;
+            }
+
+        @@media (min-width: 568px) {
+            .main-block {
+                flex-direction: row;
+            }
+
+            .left-part, form {
+                width: 50%;
+            }
+
+            .fa-envelope {
+                margin-top: 0;
+                margin-left: 20%;
+            }
+
+            .fa-at {
+                margin-top: -10%;
+                margin-left: 65%;
+            }
+
+            .fa-mail-bulk {
+                margin-top: 2%;
+                margin-left: 28%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-block">
+        <div class="left-part">
+            <i class="fas fa-envelope"></i>
+            <i class="fas fa-at"></i>
+            <i class="fas fa-mail-bulk"></i>
+        </div>
+        <form action="/">
+            <div class="info" id="tableveri" style="display:none ; font-size:80%; margin:1%">
+                <table id="ahli" class="table table-responsive">
+                    <thead>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+
+            </div>
+
+
+            <div id="ContactForm">
+                <h1>Contact Us</h1>
+                <div class="info">
+                    <input class="fname" id="nameA" type="text" name="name" placeholder="Full name">
+                    <input type="text" id="mailA" name="name" placeholder="Email">
+                    <input type="text" id="subjectA" name="name" placeholder="Subject">
+                </div>
+                <p>Message</p>
+                <div>
+                    <textarea id="messageA" rows="4"></textarea>
+                </div>
+            </div>
+
+
+            <button type="button" onclick="ilet()" href="/">Gönder</button>
+            <button type="button" onclick="Göster()" href="/">Verileri Listele</button>
+            <button type="button" onclick="FormGöster()" href="/">Form Göster</button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header col-md-12">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Modal Header</h4>
+                            <input type="text" id="input-dataid" placeholder="Subject">
+                        </div>
+                        <div class="modal-body">
+                            <div class=" cf">
+                                <form class="cf">
+                                    <div class="cf">
+                                        <input type="text" id="input-name" placeholder="Name">
+                                        <input type="email" id="input-email" placeholder="Email address">
+                                        <input type="text" id="input-subject" placeholder="Subject">
+                                    </div>
+                                    <div class="cf">
+                                        <textarea name="message" type="text" id="input-message" placeholder="Message"></textarea>
+                                    </div>
+
+                                </form>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" onclick="Updatedata()" class="btn btn-default" data-dismiss="modal">Kaydet</button>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+
+<script>
+    $(document).ready(function () {
+        //$('#ahli').DataTable();
+
+        DataGet();
+
+    });
+
+    function isEmailValid(text) {
+        var emailRegex = /^[a-zA-Z0-9._-]+@@[a-zA-Z0-9-]+\.[a-zA-Z]{2,6}$/;
+        return emailRegex.test(text);
+    }
+
+    function NullControl() {
+
+        var name = $('#nameA').val();
+        var mail = $('#mailA').val();
+        var subject = $('#subjectA').val();
+        var message = $('#messageA').val();
+
+        if (name.trim() === null || name.trim() === "") {
+            document.getElementById('nameA').style.border = "2px solid";
+            document.getElementById('nameA').style.borderColor = "red";
+            swal({
+                title: "İsim Geçersiz!",
+                icon: "error",
+                button: "Kapat",
+            });
+            return false;
+
+        } 
+        if (!isEmailValid(mail.trim())) {//(mail.trim() === null || name.trim() === "") {
+            document.getElementById('mailA').style.border = "2px solid";
+            document.getElementById('mailA').style.borderColor = "red";
+            swal({
+                title: "Email Geçersiz!",
+                icon: "error",
+                button: "Kapat",
+            });
+            return false;
+        }
+        else {
+            return true;
+        }
+
+    }
+    
+    function ilet() {
+
+        if (NullControl()) {
+            var formlar =
+            {
+                Name: $('#nameA').val(),
+                Email: $('#mailA').val(),
+                Subject: $('#subjectA').val(),
+                Message: $('#messageA').val(),
+            }
+            $.ajax({
+                url: '@Url.Action("Kayit" , "New")',
+                type: "Post",
+                data: { BilgiEkle: formlar },
+                success: function (data) {
+                    if (data.success) {
+                        //DataGet();
+                        swal({
+                            title: data.restext,
+                            icon: "success",
+                            button: "Kapat",
+                        });
+
+                        document.getElementById('nameA').value = '';
+                        document.getElementById('mailA').value = '';
+                        document.getElementById('subjectA').value = '';
+                        document.getElementById('messageA').value = '';
+
+                    } else {
+                        swal({
+                            title: data.restext,
+                            icon: "error",
+                            button: "Kapat",
+                        });
+                    }
+                }, error: function (data) {
+                    swal({
+                        title: data.restext,
+                        icon: "error",
+                        button: "Kapat",
+                    });
+                }
+            });
+        }
+        
+    }
+
+    function DataGet() {
+
+        $.ajax({
+            url: '@Url.Action("KayitGetir" , "New")',
+            type: "Get",
+            success: function (data) {
+
+                $("#ahli").DataTable({
+                    "responsive": true, "lengthChange": false, "autoWidth": false,
+
+                    "bDestroy": true,
+                    data: data.kayitList,
+                    columns: [
+
+                        { title: "Name", data: "name" },
+                        { title: "Email", data: "email" },
+                        { title: "Subject", data: "subject" },
+                        { title: "Message", data: "message" },
+
+                        {
+                            title: "İŞLEM", data: "id", "render": function (data) {
+
+                                return "<a href=\"#\" onclick=\"Delete(\'" + data + "\')\" class=\"\"><i style=\"color:red;\" class=\"fa fa-trash\" aria-hidden=\"true\"></i></a> &nbsp;<a href=\"\" style=\"border:none;\" onclick=\"ModalGet(" + data + ")\" type=\"button\" class=\"fa fa-pencil-square-o\" data-toggle=\"modal\" data-target=\"#myModal\"> </a>";
+
+                            }
+
+                        }
+
+                    ]
+
+
+                });
+            }, error: function () { }
+        });
+
+    }
+
+    function ModalGet(value) {
+
+        $.ajax({
+            url: '@Url.Action("ModalKayitGetir" , "New")',
+            type: "Get",
+            data: { Id: value },
+            success: function (data) {
+                console.log(data);
+                $('#input-dataid').val(data.modalkayitList.id);
+                $('#input-name').val(data.modalkayitList.name);
+                $('#input-email').val(data.modalkayitList.email);
+                $('#input-subject').val(data.modalkayitList.subject);
+                $('#input-message').val(data.modalkayitList.message);
+
+
+            }, error: function () { }
+        });
+
+    }
+
+    function Updatedata() {
+
+        var ModalVeriUpdate2 = {
+            Id: $('#input-dataid').val(),
+            Name: $('#input-name').val(),
+            Email: $('#input-email').val(),
+            Subject: $('#input-subject').val(),
+            Message: $('#input-message').val(),
+
+
+
+        };
+
+        $.ajax({
+            url: '@Url.Action("ModalVeriUpdate","New")',
+            type: "Post",
+            data: { ModalUpdate: ModalVeriUpdate2 },
+            success: function (data) {
+                if (data.success) {
+                    DataGet();
+                    swal({
+                        title: data.restext,
+                        icon: "success",
+                        button: "Kapat",
+                    });
+
+
+                } else {
+                    swal({
+                        title: data.restext,
+                        icon: "error",
+                        button: "Kapat",
+                    });
+                }
+            }, error: function (data) {
+                swal({
+                    title: data.restext,
+                    icon: "error",
+                    button: "Kapat",
+                });
+            }
+        });
+    }
+
+    function Delete(Sil) {
+
+        $.ajax({
+            url: '@Url.Action("VeriSil" , "New")',
+            type: "Post",
+            data: { Id: Sil },
+            success: function (data) {
+
+                if (data.success) {
+                    DataGet();
+                    swal({
+                        title: data.restext,
+                        icon: "success",
+                        button: "Kapat",
+                    });
+                } else {
+                    swal({
+                        title: data.restext,
+                        icon: "error",
+                        button: "Kapat",
+                    });
+                }
+            }, error: function (data) {
+                swal({
+                    title: data.restext,
+                    icon: "error",
+                    button: "Kapat",
+                });
+            }
+        });
+    }
+
+    function Göster() {
+        document.getElementById("ContactForm").style.display = "none";
+        document.getElementById("tableveri").style.display = "inherit";
+        DataGet();
+
+
+
+    }
+    function FormGöster() {
+        document.getElementById("ContactForm").style.display = "block";
+        document.getElementById("tableveri").style.display = "none";
+
+
+    }
+
+
+
+</script>

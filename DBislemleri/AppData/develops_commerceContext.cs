@@ -21,6 +21,7 @@ namespace Dbislemleri.AppData
         public virtual DbSet<AdminUser> AdminUsers { get; set; }
         public virtual DbSet<Advert> Adverts { get; set; }
         public virtual DbSet<City> Cities { get; set; }
+        public virtual DbSet<ContactForm> ContactForms { get; set; }
         public virtual DbSet<CouponCode> CouponCodes { get; set; }
         public virtual DbSet<DbIslemleriAhmet> DbIslemleriAhmets { get; set; }
         public virtual DbSet<MainMenu> MainMenus { get; set; }
@@ -80,6 +81,19 @@ namespace Dbislemleri.AppData
             modelBuilder.Entity<City>(entity =>
             {
                 entity.Property(e => e.CityName).HasMaxLength(255);
+            });
+
+            modelBuilder.Entity<ContactForm>(entity =>
+            {
+                entity.ToTable("ContactForm");
+
+                entity.Property(e => e.Email).HasMaxLength(50);
+
+                entity.Property(e => e.Message).HasMaxLength(50);
+
+                entity.Property(e => e.Name).HasMaxLength(50);
+
+                entity.Property(e => e.Subject).HasMaxLength(50);
             });
 
             modelBuilder.Entity<CouponCode>(entity =>
